@@ -2,9 +2,9 @@
 
 
 // Handle database connection
-$dsn = 'mysql:host=localhost;dbname=1phpd_exo;charset=utf8mb4';
-$username = 'root';
-$password = '';
+$dsn = 'mysql:host=bqckkitimaau4udfv2ho-mysql.services.clever-cloud.com;dbname=bqckkitimaau4udfv2ho;charset=utf8mb4';
+$username = 'ulyytigymynzgquu';
+$password = 'fWznVBIQwZ9m1uUHhHUI';
 $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

@@ -73,9 +73,11 @@ function login_user($input) {
     if (empty($input["email"])) {
         http_response_code(400);
         echo json_encode("Email field is required");
+
     } else if (empty($input["password"])) {
         http_response_code(400);
         echo json_encode("password field is required");
+
     } else {
         $stmt = $pdo->prepare("SELECT * FROM user WHERE email = ?");
         $stmt->execute([$input["email"]]);
@@ -95,7 +97,7 @@ function login_user($input) {
             echo json_encode($user);
         } else {
             http_response_code(400);
-            echo json_encode(["errorMessage" => "Invalid password"]);
+            echo json_encode(["errorMessage" => "Invalid password OR User not found"]);
         }
     }
 }
