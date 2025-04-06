@@ -50,7 +50,7 @@
         </div>
         <!-- Copyright -->
         <div class="text-center text-secondary">
-            <p class="mb-0">&copy; <span id="currentYear"></span> Absolute Cinema 2025. All rights reserved.</p>
+            <p class="mb-0">&copy; <span id="currentYear"></span> Absolute Cinema 2025. Tout droits réservé.</p>
         </div>
     </div>
 </footer>
