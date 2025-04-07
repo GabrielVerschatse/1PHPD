@@ -18,7 +18,22 @@
         </svg>
     </div>
 
-    <h1 class="text-center">Connexion</h1>
+    <h1 class="text-center">Création de votre compte</h1>
+
+    <div class="input-group mt-4 mb-2">
+        <span class="input-group-text">Nom</span>
+        <input type="text" class="form-control" aria-label="Username" placeholder="Ziggs">
+    </div>
+
+    <div class="input-group mb-2">
+        <span class="input-group-text">Prénom</span>
+        <input type="text" class="form-control" aria-label="Username" placeholder="Herbert">
+    </div>
+
+    <div class="form-group">
+        <label for="phone_user">Numéro de téléphone</label>
+        <input type="tel" class="form-control" id="phone_user" placeholder="0606060606">
+    </div>
 
     <div class="form-group">
         <label for="email_user">Adresse Email</label>
@@ -26,19 +41,13 @@
         <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre email :)</small>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mb-4">
         <label for="password_user">Mot de Passe</label>
         <input type="password" class="form-control" id="password_user" required>
     </div>
 
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Se souvenir de moi</label>
-    </div>
-
     <div class="d-flex flex-column justify-content-center align-items-center gap-3">
-        <button type="submit" class="btn btn-primary" style="width: 20vw;">Connexion</button>
-        <a href="/1PHPD/inscription.php" class="btn btn-secondary" style="width: 20vw;">S'inscrire</a>
+        <button type="submit" class="btn btn-primary" style="width: 20vw;">S'inscrire</button>
     </div>
 </form>
 
