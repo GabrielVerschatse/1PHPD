@@ -47,7 +47,7 @@
     </div>
 
     <div class="d-flex flex-column justify-content-center align-items-center gap-3">
-        <button type="submit" class="btn btn-primary" style="width: 20vw;">S'inscrire</button>
+        <button type="submit" class="btn btn-danger" style="width: 20vw;">S'inscrire</button>
     </div>
 </form>
 
