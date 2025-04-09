@@ -38,16 +38,16 @@ function register_user($input)  {
     // Check if required fields are empty
     if (empty($input["firstname"])) {
         http_response_code(400);
-        echo json_encode("Firstname field is required");
+        echo json_encode(["errorMessage" => "firstname field is required"]);
     } else if (empty($input["lastname"])) {
         http_response_code(400);
-        echo json_encode("Lastname field is required");
+        echo json_encode(["errorMessage" => "lastname field is required"]);
     } else if (empty($input["email"]) || !filter_var($input["email"], FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);
-        echo json_encode("email field is required");
+        echo json_encode(["errorMessage" => "email field is required"]);
     } else if (empty($input["password"])) {
         http_response_code(400);
-        echo json_encode("password field is required");
+        echo json_encode(["errorMessage" => "password field is required"]);
 
     } else {
         $firstname = htmlspecialchars($input["firstname"]);
@@ -59,7 +59,7 @@ function register_user($input)  {
         $stmt = $pdo->prepare("INSERT INTO user (firstname, lastname, phone, email, password) VALUES (:firstname, :lastname, :phone, :email, :password)");
         $stmt->execute(["firstname" => $firstname, "lastname" => $lastname, "phone" => $phone, "email" => $email, "password" => $password]);
 
-        echo json_encode(["successMessage" => "User registered successfully"]);
+        echo json_encode(["status" => "Success", "message" => "User registered successfully"]);
     }
 }
 

@@ -26,14 +26,14 @@ console.log("User ID: ", user);
 // Handle buttons redirection
 
 document.getElementById('connexion').onclick = function () {
-    window.location.href = '/1PHPD/Assets/pages/login.php';
+    window.location.href = '/1PHPD/Assets/user/login.php';
 }
 
 document.getElementById('profil').onclick = function () {
-    window.location.href = '/1PHPD/Assets/pages/profil.php';
+    window.location.href = '/1PHPD/Assets/user/profil.php';
 }
 
 document.getElementById('cart').onclick = function () {
     sessionStorage.clear();
-    window.location.href = '/1PHPD/Assets/pages/cart.php';
+    window.location.href = '/1PHPD/Assets/user/cart.php';
 }

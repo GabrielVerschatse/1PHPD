@@ -29,7 +29,7 @@ main_title.insertAdjacentHTML("afterend",`
 // Handle logout button
 document.getElementById("logout").onclick = () => {
     sessionStorage.clear();
-    window.location.href = '/1PHPD/Assets/pages/login.php';
+    window.location.href = '/1PHPD/index.php';
 };
 
 
