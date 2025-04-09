@@ -16,7 +16,7 @@
 <div class="row row-cols-1 row-cols-md-4 g-4 my-5 mx-5">
   <div class="col">
     <div class="card">
-      <img src="https://preview.redd.it/a4pu8ndutofe1.jpeg?auto=webp&s=9fe553e20cdfa5ce4ea4b023589692cb4ffd756e" class="card-img-top img-fluid" style="max-height: 350px; object-fit: contain;" alt="...">
+      <img src="https://preview.redd.it/a4pu8ndutofe1.jpeg?auto=webp&s=9fe553e20cdfa5ce4ea4b023589692cb4ffd756e" class="card-img-top img-fluid pt-2" style="max-height: 350px; object-fit: contain;" alt="...">
       <div class="card-body">
         <h5 class="card-title">Minecraft, the Movie</h5>
         <small class="text-body-secondary">2025 |</small>
@@ -30,7 +30,7 @@
   </div>
   <div class="col">
     <div class="card">
-      <img src="..." class="card-img-top" alt="...">
+      <img src="" class="card-img-top" alt="">
       <div class="card-body">
         <h5 class="card-title">Card title</h5>
         <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -39,7 +39,7 @@
   </div>
   <div class="col">
     <div class="card">
-      <img src="..." class="card-img-top" alt="...">
+      <img src="" class="card-img-top" alt="">
       <div class="card-body">
         <h5 class="card-title">Card title</h5>
         <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
@@ -48,7 +48,7 @@
   </div>
   <div class="col">
     <div class="card">
-      <img src="..." class="card-img-top" alt="...">
+      <img src="" class="card-img-top" alt="">
       <div class="card-body">
         <h5 class="card-title">Card title</h5>
         <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>

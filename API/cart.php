@@ -1,6 +1,6 @@
 <?php
 
-require_once  'connection_bdd.php';
+require_once 'connection_bdd.php';
 
 
 // Handle GET requests

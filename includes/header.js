@@ -1,17 +1,41 @@
-let user = sessionStorage['user'] ? JSON.parse(sessionStorage['user']) : null;
+// Try to obtain the current user in the session
+
+let user = sessionStorage['id'] ? JSON.parse(sessionStorage['id']) : null;
 
 
-// If a user is logged in, show the logout button and hide the login button
-if (user){
-    let logins = document.getElementsByClassName("not-login");
-    for (element of logins){
-        element.class.add("invisible");
-        element.class.remove("visible");
+// If the user is logged in, show the logout button
+if (user) {
+    let notLoginElements = document.getElementsByClassName('not-login');
+    for (let element of notLoginElements) {
+        element.classList.add("invisible");
+        element.classList.remove("visible");
     }
 
-    let logouts = document.getElementsByClassName("login");
-    for (element of logouts){
-        element.class.add("visible");
-        element.class.remove("invisible");
+    let loginElements = document.getElementsByClassName('login');
+    for (let element of loginElements) {
+        element.classList.add("visible");
+        element.classList.remove("invisible");
+    }
+}
+
+console.log("User ID: ", user);
+
+
+
+
+// Handle buttons redirection
+
+if (document.getElementById('login-button')) {
+    document.getElementById('login-button').onclick = function () {
+        window.location.href = 'Assets/pages/login.php  ';
+    }
+} else if (document.getElementById('user-button')) {
+    document.getElementById('user-button').onclick = function () {
+        window.location.href = 'Assets/pages/user.php  ';
+    }
+} else if (document.getElementById('cart-button')) {
+    document.getElementById('cart-button').onclick = function () {
+        sessionStorage.clear();
+        window.location.href = 'Assets/pages/cart.php  ';
     }
 }
