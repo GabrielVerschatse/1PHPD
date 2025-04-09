@@ -36,6 +36,10 @@
         <label class="form-check-label" for="remember">Se souvenir de moi</label>
     </div>
 
+    <div class="invisible alert alert-danger" id="error-message">
+        Mots de passe incorrect ou utilisateur non trouvé
+    </div>
+
     <div class="d-flex flex-column justify-content-center align-items-center gap-3">
         <button type="submit" class="btn btn-danger" style="width: 20vw;">Connexion</button>
         <a href="/1PHPD/inscription.php" class="btn btn-secondary" style="width: 20vw;">S'inscrire</a>

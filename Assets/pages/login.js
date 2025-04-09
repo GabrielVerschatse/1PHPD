@@ -26,11 +26,7 @@ form.addEventListener("submit", function (event) {
             } else{
                 console.error("Error:", data.errorMessage);
                 // Display the error message to the user
-                let button = document.querySelector("form button");
-
-                const errorDiv = document.createElement("div");
-                errorDiv.textContent = data.errorMessage;
-                button.parentNode.insertBefore(errorDiv, button);
+                document.getElementById("error-message").classList.remove("invisible");
             }
         })
         .catch((error) => {
