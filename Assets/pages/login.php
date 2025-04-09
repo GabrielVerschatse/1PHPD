@@ -21,19 +21,19 @@
     <h1 class="text-center">Connexion</h1>
 
     <div class="form-group">
-        <label for="email_user">Adresse Email</label>
-        <input type="email" class="form-control" id="email_user" aria-describedby="emailHelp" placeholder="Enter email" required>
+        <label for="email">Adresse Email</label>
+        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>
         <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre email :)</small>
     </div>
 
     <div class="form-group">
-        <label for="password_user">Mot de Passe</label>
-        <input type="password" class="form-control" id="password_user" required>
+        <label for="password">Mot de Passe</label>
+        <input type="password" class="form-control" name="password" required>
     </div>
 
     <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Se souvenir de moi</label>
+        <input type="checkbox" class="form-check-input" name="remember">
+        <label class="form-check-label" for="remember">Se souvenir de moi</label>
     </div>
 
     <div class="d-flex flex-column justify-content-center align-items-center gap-3">
@@ -43,6 +43,7 @@
 </form>
 
 <?php include_once '../../includes/footer.php'; ?>
+<script src="login.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 </html>

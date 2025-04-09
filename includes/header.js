@@ -1,6 +1,6 @@
 // Try to obtain the current user in the session
 
-let user = sessionStorage['id'] ? JSON.parse(sessionStorage['id']) : null;
+let user = sessionStorage['user'] ? JSON.parse(sessionStorage['user']) : null;
 
 
 // If the user is logged in, show the logout button
@@ -25,17 +25,15 @@ console.log("User ID: ", user);
 
 // Handle buttons redirection
 
-if (document.getElementById('login-button')) {
-    document.getElementById('login-button').onclick = function () {
-        window.location.href = 'Assets/pages/login.php  ';
-    }
-} else if (document.getElementById('user-button')) {
-    document.getElementById('user-button').onclick = function () {
-        window.location.href = 'Assets/pages/user.php  ';
-    }
-} else if (document.getElementById('cart-button')) {
-    document.getElementById('cart-button').onclick = function () {
-        sessionStorage.clear();
-        window.location.href = 'Assets/pages/cart.php  ';
-    }
+document.getElementById('connexion').onclick = function () {
+    window.location.href = '/1PHPD/Assets/pages/login.php';
+}
+
+document.getElementById('profil').onclick = function () {
+    window.location.href = '/1PHPD/Assets/pages/profil.php';
+}
+
+document.getElementById('cart').onclick = function () {
+    sessionStorage.clear();
+    window.location.href = '/1PHPD/Assets/pages/cart.php';
 }

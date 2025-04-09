@@ -51,5 +51,5 @@
             </div>
         </div>
     </nav>
-    <script src="./includes/header.js"></script>
+    <script src="/1PHPD/includes/header.js"></script>
 </header>

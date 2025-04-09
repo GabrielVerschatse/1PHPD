@@ -94,6 +94,7 @@ function login_user($input) {
 
             // Set the token in the response and return the user data
             $user["token"] = $token;
+            $user["status"] = "success";
             echo json_encode($user);
         } else {
             http_response_code(400);

@@ -8,50 +8,50 @@
 </head>
 
 <body>
-<?php include_once '../../includes/header.php'; ?>
+    <?php include_once '../../includes/header.php'; ?>
 
-<form style="margin: 50px auto; gap: 10px; max-width: 40vw" class="d-flex flex-column" action="" method="post">
+    <form style="margin: 50px auto; gap: 10px; max-width: 40vw" class="d-flex flex-column" action="" method="post">
 
-    <div class="d-flex justify-content-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-        </svg>
-    </div>
+        <div class="d-flex justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+        </div>
 
-    <h1 class="text-center">Création de votre compte</h1>
+        <h1 class="text-center">Création de votre compte</h1>
 
-    <div class="input-group mt-4 mb-2">
-        <span class="input-group-text">Nom</span>
-        <input type="text" class="form-control" aria-label="Username" placeholder="Ziggs">
-    </div>
+        <div class="input-group mt-4 mb-2">
+            <span class="input-group-text">Nom</span>
+            <input type="text" class="form-control" aria-label="Username" placeholder="Ziggs">
+        </div>
 
-    <div class="input-group mb-2">
-        <span class="input-group-text">Prénom</span>
-        <input type="text" class="form-control" aria-label="Username" placeholder="Herbert">
-    </div>
+        <div class="input-group mb-2">
+            <span class="input-group-text">Prénom</span>
+            <input type="text" class="form-control" aria-label="Username" placeholder="Herbert">
+        </div>
 
-    <div class="form-group">
-        <label for="phone_user">Numéro de téléphone</label>
-        <input type="tel" class="form-control" id="phone_user" placeholder="0606060606">
-    </div>
+        <div class="form-group">
+            <label for="phone_user">Numéro de téléphone</label>
+            <input type="tel" class="form-control" id="phone_user" placeholder="0606060606">
+        </div>
 
-    <div class="form-group">
-        <label for="email_user">Adresse Email</label>
-        <input type="email" class="form-control" id="email_user" aria-describedby="emailHelp" placeholder="Enter email" required>
-        <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre email :)</small>
-    </div>
+        <div class="form-group">
+            <label for="email_user">Adresse Email</label>
+            <input type="email" class="form-control" id="email_user" aria-describedby="emailHelp" placeholder="Enter email" required>
+            <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais votre email :)</small>
+        </div>
 
-    <div class="form-group mb-4">
-        <label for="password_user">Mot de Passe</label>
-        <input type="password" class="form-control" id="password_user" required>
-    </div>
+        <div class="form-group mb-4">
+            <label for="password_user">Mot de Passe</label>
+            <input type="password" class="form-control" id="password_user" required>
+        </div>
 
-    <div class="d-flex flex-column justify-content-center align-items-center gap-3">
-        <button type="submit" class="btn btn-danger" style="width: 20vw;">S'inscrire</button>
-    </div>
-</form>
+        <div class="d-flex flex-column justify-content-center align-items-center gap-3">
+            <button type="submit" class="btn btn-danger" style="width: 20vw;">S'inscrire</button>
+        </div>
+    </form>
 
-<?php include_once '../../includes/footer.php'; ?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <?php include_once '../../includes/footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 </html>
