@@ -14,22 +14,22 @@
 
             <!-- Mobile Toggle -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
             </button>
 
             <!-- Navigation -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/1PHPD/Assets/category/category.php?category=drama">Drama</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/1PHPD/Assets/category/category.php?category=action">Action</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Rechercher un film</a>
-                    </li>
-                </ul>
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Drama</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Action</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Rechercher un film</a>
+                </li>
+            </ul>
 
                 <div class="d-flex align-items-center gap-3">
                     <!-- Sign In button -->
