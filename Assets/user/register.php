@@ -10,7 +10,7 @@
 <body>
     <?php include_once '../../includes/header.php'; ?>
 
-    <form style="margin: 50px auto; gap: 10px; max-width: 40vw" class="d-flex flex-column" method="post">
+    <form style="margin: 50px auto; gap: 10px; max-width: 400px; padding: 20px;" class="d-flex flex-column" method="post">
 
         <div class="d-flex justify-content-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -47,7 +47,7 @@
         </div>
 
         <div class="d-flex flex-column justify-content-center align-items-center gap-3">
-            <button type="submit" class="btn btn-danger" style="width: 20vw;">S'inscrire</button>
+            <button type="submit" class="btn btn-danger">S'inscrire</button>
         </div>
     </form>
 

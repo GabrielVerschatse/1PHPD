@@ -131,11 +131,11 @@ function change_password($input) {
         $new_password = password_hash($input["new_password"], PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("UPDATE user SET password = ? WHERE id = ?");
         $stmt->execute([$new_password, $input["id"]]);
-        echo json_encode(["successMessage" => "Password changed successfully"]);
+        echo json_encode(["status" => "success", "successMessage" => "Password changed successfully"]);
 
     } else {
         http_response_code(400);
-        echo json_encode(["errorMessage" => "Invalid data provided"]);
+        echo json_encode(["status" => "error", "errorMessage" => "Invalid data provided"]);
     }
 }
 ?>

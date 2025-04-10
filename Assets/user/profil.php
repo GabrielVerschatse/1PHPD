@@ -10,23 +10,47 @@
 <body>
     <?php include_once '../../includes/header.php'; ?>
 
-    <main>
-        <div class="d-flex justify-content-center flex-column align-items-center" style="margin: 50px auto; gap: 10px; max-width: 400px; padding: 20px;">
+    <main class="container row justify-content-center my-5 mx-auto gap-5">
+
+        <div class="col-12 col-md-6 d-flex justify-content-center flex-column align-items-center mx-auto gap-3" style="max-width: 400px">
             <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
             </svg>
-
-            <h1 class="text-center">Votre profil</h1>
-
-            <button class='btn btn-danger'>
-                Changer le mot de passe
-            </button>
-
+            <h1 class="text-center" id="data-insertion">Votre profil</h1>
             <button class='btn btn-danger' id="logout">
                 Déconnexion
             </button>
         </div>
+
+
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-center align-items-center gap-3 mx-auto">
+            <h1 class="text-center">Changer votre Mot de Passe</h1>
+            <! -- Pas obligé de mettre une method (y'a pas de put) et d'attribut action car JS -->
+            <form class="table-responsive" method="post">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td><label for="old_password">Ancien Mot de Passe</label></td>
+                            <td><input type="password" class="form-control" name="old_password" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="new_password">Nouveau Mot de Passe</label></td>
+                            <td><input type="password" class="form-control" name="new_password" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="confirm_password">Confirmer le Mot de Passe</label></td>
+                            <td><input type="password" class="form-control" name="confirm_password" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-danger" id="reset_password">Réinitialiser</button>
+                </div>
+            </form>
+        </div>
     </main>
+
+
 
     <?php include_once '../../includes/footer.php'; ?>
     <script src="profil.js"></script>
