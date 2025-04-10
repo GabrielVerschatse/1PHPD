@@ -7,14 +7,12 @@ let user = sessionStorage['user'] ? JSON.parse(sessionStorage['user']) : null;
 if (user) {
     let notLoginElements = document.getElementsByClassName('not-login');
     for (let element of notLoginElements) {
-        element.classList.add("invisible");
-        element.classList.remove("visible");
+        element.classList.add("hide")
     }
 
     let loginElements = document.getElementsByClassName('login');
     for (let element of loginElements) {
-        element.classList.add("visible");
-        element.classList.remove("invisible");
+        element.classList.remove("hide")
     }
 }
 
