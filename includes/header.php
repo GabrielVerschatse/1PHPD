@@ -21,10 +21,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Drama</a>
+                        <a class="nav-link" href="/1PHPD/Assets/category/category.php?category=drama">Drama</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Action</a>
+                        <a class="nav-link" href="/1PHPD/Assets/category/category.php?category=action">Action</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/">Rechercher un film</a>

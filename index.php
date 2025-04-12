@@ -20,7 +20,8 @@
       <div class="card-body">
         <h5 class="card-title">Minecraft, the Movie</h5>
         <small class="text-body-secondary">2025 |</small>
-        <small class="text-body-secondary">Price : 10.99</small>
+        <small class="text-body-secondary">Price : 10.99 |</small>
+        <small class="text-body-secondary">Genre : Action</small>
         <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
         <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-danger">Plus d'informations</button>
