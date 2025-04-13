@@ -31,11 +31,6 @@
         <input type="password" class="form-control" name="password" required>
     </div>
 
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" name="remember">
-        <label class="form-check-label" for="remember">Se souvenir de moi</label>
-    </div>
-
     <div class="invisible alert alert-danger" id="error-message">
         Mots de passe incorrect ou utilisateur non trouvé
     </div>
