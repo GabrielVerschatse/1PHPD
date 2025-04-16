@@ -2,8 +2,6 @@
 const parameters = new URLSearchParams(window.location.search);
 const category = parameters.get('category');
 
-
-
 // Function to fetch and display products based on the category
 async function Display_movies(category) {
     try {
@@ -24,18 +22,25 @@ async function Display_movies(category) {
                         <small class='text-body-secondary'>${film.release_date} | Price : ${film.price} | Genre : ${film.genre}</small>
                         <p class='card-text'>${film.small_description}</p>
                         <div class='d-flex justify-content-center'>
-                            <button type='button' class='btn btn-danger'>Plus d'informations</button>
+                            <button type='button' class='btn btn-danger' data-film-id='${film.id}'>Plus d'informations</button>
                         </div>
                     </div>
                 </div>`;
-
             productContainer.appendChild(productCard);
+        });
+
+        // Attach event listeners to buttons
+        const buttons = document.getElementsByClassName('btn btn-danger');
+        Array.from(buttons).forEach((button) => {
+            button.addEventListener('click', function() {
+                const filmId = this.getAttribute('data-film-id');
+                window.location.href = `/1PHPD/Assets/more/more_info.php?id=${filmId}`;
+            });
         });
     } catch (error) {
         console.error('Error fetching products:', error);
     }
 }
-
 
 console.log(category);
 Display_movies(category);

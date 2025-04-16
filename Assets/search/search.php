@@ -41,10 +41,21 @@
                     <div class="filter-section">
                         <h5>Recherche</h5>
                         <div class="mb-3">
-                            <label for="search" class="form-label">Titre, acteur ou réalisateur</label>
+                            <div class="form-check form-check-inline mb-2">
+                                <input class="form-check-input" type="radio" name="search_type" id="title_search" value="title" checked>
+                                <label class="form-check-label" for="title_search">Titre</label>
+                            </div>
+                            <div class="form-check form-check-inline mb-2">
+                                <input class="form-check-input" type="radio" name="search_type" id="director_search" value="director">
+                                <label class="form-check-label" for="director_search">Réalisateur</label>
+                            </div>
+                            <div class="form-check form-check-inline mb-2">
+                                <input class="form-check-input" type="radio" name="search_type" id="actor_search" value="actor">
+                                <label class="form-check-label" for="actor_search">Acteur</label>
+                            </div>
+                            <label for="search" class="form-label">Que recherchez-vous ?</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="search" name="search"
-                                       placeholder="Que recherchez-vous ?">
+                                <input type="text" class="form-control" id="search1" name="search" placeholder="Entrez votre recherche">
                                 <button type="submit" class="btn btn-danger">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>

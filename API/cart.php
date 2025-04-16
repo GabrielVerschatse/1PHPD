@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 } else if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
     $url = $_SERVER['REQUEST_URI'];
-    $url_components = parse_url($url);                      // Transform the URL into an array
+    $url_components = parse_url($url);
     parse_str($url_components['query'], $input);    // Transform the array into a dictionary
     delete_movie($input);
 
@@ -33,13 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     http_response_code(400);
     echo json_encode("Invalid Method");
 }
-
-
-
-
-
-
-
 
 function get_cart($input) {
     global $pdo;
@@ -61,8 +54,8 @@ function get_cart($input) {
 
         if ($stmt->rowCount() > 0) {
             $cart_id = $stmt->fetch()["id"];
-            // Join tables for cart content
-            $stmt = $pdo->prepare("SELECT title, actors, directors, price, video
+            // Join tables for cart content - Ajout de movies.id AS movie_id
+            $stmt = $pdo->prepare("SELECT * 
                                           FROM cart_content
                                           JOIN movies ON cart_content.movie_id = movies.id
                                           WHERE cart_content.cart_id = ?");
@@ -84,13 +77,6 @@ function get_cart($input) {
         echo json_encode("Unauthorized");
     }
 }
-
-
-
-
-
-
-
 
 
 function add_cart($input) {
@@ -138,11 +124,6 @@ function add_cart($input) {
         echo json_encode("Unauthorized");
     }
 }
-
-
-
-
-
 
 
 function delete_movie($input) {

@@ -32,8 +32,7 @@ document.getElementById('profil').onclick = function () {
 }
 
 document.getElementById('cart').onclick = function () {
-    sessionStorage.clear();
-    window.location.href = '/1PHPD/Assets/user/cart.php';
+    window.location.href = '/1PHPD/Assets/user/view_cart.php';
 }
 
 document.getElementById('search').onclick = function () {

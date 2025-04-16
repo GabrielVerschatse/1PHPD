@@ -24,7 +24,7 @@
         <small class="text-body-secondary">Genre : Action</small>
         <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-danger">Plus d'informations</button>
+            <button type="button" class="btn btn-danger" ">Plus d'informations</button>
         </div>
       </div>
     </div>
