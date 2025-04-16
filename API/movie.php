@@ -44,33 +44,81 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 function search_movies($search_term) {
     global $pdo;
 
-    $search = "%" . trim($search_term) . "%";
-    $params = [$search, $search, $search, $search, $search, $search];
+    if (!empty($search_term)) {
+        $search = "%" . trim($search_term) . "%";
 
-    $sql = "SELECT DISTINCT movies.*
-            FROM movies
-            LEFT JOIN movies_actor ON movies.id = movies_actor.movie_id
-            LEFT JOIN actor ON movies_actor.actor_id = actor.id
-            LEFT JOIN movies_director ON movies.id = movies_director.movie_id
-            LEFT JOIN director ON movies_director.director_id = director.id
-            WHERE (movies.title LIKE ?
-            OR actor.firstname LIKE ?
-            OR actor.lastname LIKE ?
-            OR director.firstname LIKE ?
-            OR director.lastname LIKE ?)";
+        if (isset($_GET['search_type'])) {
+            $search_type = $_GET['search_type'];
 
-    if (isset($_GET['genre']) && $_GET['genre'] !== '') {
-        $sql .= " AND movies.genre LIKE ?";
-        $params[] = "%" . $_GET['genre'] . "%";
+            if ($search_type === 'title') {
+                $sql = "SELECT DISTINCT movies.*
+                        FROM movies
+                        WHERE movies.title LIKE ?
+                        LIMIT 20";
+                $params = [$search];
+            }
+            elseif ($search_type === 'actor') {
+                $sql = "SELECT DISTINCT movies.*
+                        FROM movies
+                        JOIN movies_actor ON movies.id = movies_actor.movie_id
+                        JOIN actor ON movies_actor.actor_id = actor.id
+                        WHERE actor.firstname LIKE ? OR actor.lastname LIKE ?
+                        LIMIT 20";
+                $params = [$search, $search];
+            }
+            elseif ($search_type === 'director') {
+                $sql = "SELECT DISTINCT movies.*
+                        FROM movies
+                        JOIN movies_director ON movies.id = movies_director.movie_id
+                        JOIN director ON movies_director.director_id = director.id
+                        WHERE director.firstname LIKE ? OR director.lastname LIKE ?
+                        LIMIT 20";
+                $params = [$search, $search];
+            }
+        }
+        else {
+            $sql = "SELECT DISTINCT movies.*
+                FROM movies
+                WHERE movies.title LIKE ?
+                
+                UNION
+                
+                SELECT DISTINCT movies.*
+                FROM movies
+                JOIN movies_actor ON movies.id = movies_actor.movie_id
+                JOIN actor ON movies_actor.actor_id = actor.id
+                WHERE actor.firstname LIKE ? OR actor.lastname LIKE ?
+                
+                UNION
+                
+                SELECT DISTINCT movies.*
+                FROM movies
+                JOIN movies_director ON movies.id = movies_director.movie_id
+                JOIN director ON movies_director.director_id = director.id
+                WHERE director.firstname LIKE ? OR director.lastname LIKE ?
+                
+                LIMIT 20";
+
+            $params = [$search, $search, $search, $search, $search];
+        }
     }
+    else {
+        $sql = "SELECT DISTINCT movies.* FROM movies WHERE 1=1";
+        $params = [];
 
-    if (isset($_GET['sort']) && $_GET['sort'] === 'old') {
-        $sql .= " ORDER BY movies.release_date ASC";
-    } else {
-        $sql .= " ORDER BY movies.release_date DESC";
+        if (isset($_GET['genre']) && !empty($_GET['genre'])) {
+            $sql .= " AND movies.genre LIKE ?";
+            $params[] = "%" . $_GET['genre'] . "%";
+        }
+
+        if (isset($_GET['sort']) && $_GET['sort'] === 'old') {
+            $sql .= " ORDER BY movies.release_date ASC";
+        } else {
+            $sql .= " ORDER BY movies.release_date DESC";
+        }
+
+        $sql .= " LIMIT 20";
     }
-
-    $sql .= " LIMIT 20";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
@@ -83,74 +131,5 @@ function search_movies($search_term) {
         http_response_code(404);
         echo json_encode('Aucun film trouvé');
     }
-}
-
-function add_cart($input) {
-    global $pdo;
-
-    $user_id = $input['user_id'];
-    $movie_id = $input['movie_id'];
-    $token = $input['token'];
-
-    if (!is_user_authenticated($user_id, $token)) {
-        http_response_code(401);
-        echo json_encode('Utilisateur non authentifié');
-        return;
-    }
-
-    $stmt = $pdo->prepare("SELECT * FROM cart WHERE user_id = ? AND movie_id = ?");
-    $stmt->execute([$user_id, $movie_id]);
-    $existing_cart_item = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($existing_cart_item) {
-        http_response_code(400);
-        echo json_encode('Le film est déjà dans le panier');
-        return;
-    }
-
-    $stmt = $pdo->prepare("INSERT INTO cart (user_id, movie_id) VALUES (?, ?)");
-    if ($stmt->execute([$user_id, $movie_id])) {
-        http_response_code(200);
-        echo json_encode('Film ajouté au panier');
-    } else {
-        http_response_code(500);
-        echo json_encode('Erreur lors de l\'ajout du film au panier');
-    }
-}
-
-function get_cart($input) {
-    global $pdo;
-
-    $user_id = $input['user_id'];
-    $token = $input['token'];
-
-    if (!is_user_authenticated($user_id, $token)) {
-        http_response_code(401);
-        echo json_encode('Utilisateur non authentifié');
-        return;
-    }
-
-    $stmt = $pdo->prepare("SELECT movies.*, cart.id AS cart_id
-                            FROM cart
-                            LEFT JOIN movies ON cart.movie_id = movies.id
-                            WHERE cart.user_id = ?");
-    $stmt->execute([$user_id]);
-    $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    if (count($cart_items) > 0) {
-        header('Content-Type: application/json');
-        echo json_encode($cart_items);
-    } else {
-        http_response_code(404);
-        echo json_encode('Aucun film dans le panier');
-    }
-}
-
-function is_user_authenticated($user_id, $token) {
-    global $pdo;
-
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ? AND token = ?");
-    $stmt->execute([$user_id, $token]);
-    return $stmt->fetch(PDO::FETCH_ASSOC) !== false;
 }
 ?>

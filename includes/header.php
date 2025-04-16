@@ -27,7 +27,7 @@
                     <a class="nav-link" href="/1PHPD/Assets/category/category.php?category=action">Action</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Rechercher un film</a>
+                    <a class="nav-link" id="search" href="/">Rechercher un film</a>
                 </li>
             </ul>
 

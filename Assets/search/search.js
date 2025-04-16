@@ -3,34 +3,58 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchResults = document.getElementById("searchResults");
 
     searchForm.addEventListener("submit", async (event) => {
-        event.preventDefault(); // Empêche le rechargement de la page
+        event.preventDefault();
 
-        // Récupération des valeurs du formulaire
-        const search = document.getElementById("search").value.trim();
-        const genre = document.getElementById("genre").value;
-        const sort = document.getElementById("sort").value;
+        const searchInput = document.getElementById("search");
+        const genreInput = document.getElementById("genre");
+        const sortInput = document.getElementById("sort");
 
-        // Construction de l'URL avec les paramètres
-        const queryParams = new URLSearchParams({
-            search: search,
-            genre: genre,
-            sort: sort
-        });
+        const searchTypeInputs = document.querySelectorAll('input[name="search_type"]');
+        let searchType = "";
+        for (const input of searchTypeInputs) {
+            if (input.checked) {
+                searchType = input.value;
+                break;
+            }
+        }
+
+        const search = searchInput && searchInput.value ? searchInput.value.trim() : "";
+        let genre = "";
+        let sort = "";
+        if (search === "") {
+            genre = genreInput && genreInput.value ? genreInput.value : "";
+            sort = sortInput && sortInput.value ? sortInput.value : "";
+        }
+
+        let queryParams = new URLSearchParams();
+        if (search !== "") {
+            queryParams.set("search", search);
+            if (searchType !== "") {
+                queryParams.set("search_type", searchType);
+            }
+        } else {
+            if (genre !== "") queryParams.set("genre", genre);
+            if (sort !== "") queryParams.set("sort", sort);
+        }
 
         try {
-            // Requête à l'API
             const response = await fetch(`../../API/movie.php?${queryParams.toString()}`);
             if (!response.ok) {
-                new Error(`Erreur serveur : ${response.statusText}`);
+                throw new Error(`Erreur serveur : ${response.statusText}`);
             }
 
-            const movies = await response.json();
-            if (movies.length === 0) {
-                new Error("Aucun film trouvé");
+            const responseText = await response.text();
+            let movies = [];
+            try {
+                movies = JSON.parse(responseText);
+                if (movies.length === 0) {
+                    throw new Error("Aucun film trouvé");
+                }
+            } catch (error) {
+                throw new Error("Réponse invalide de l'API : " + responseText);
             }
 
-            // Affichage des résultats
-            searchResults.innerHTML = ""; // Réinitialise les résultats
+            searchResults.innerHTML = "";
             movies.forEach((movie) => {
                 const movieCard = document.createElement("div");
                 movieCard.className = "card mb-3 movie-card";
@@ -57,7 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 searchResults.appendChild(movieCard);
             });
         } catch (error) {
-            // Affichage d'un message d'erreur
             searchResults.innerHTML = `
                 <div class="text-center text-danger">
                     <p>${error.message}</p>

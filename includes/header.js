@@ -35,3 +35,8 @@ document.getElementById('cart').onclick = function () {
     sessionStorage.clear();
     window.location.href = '/1PHPD/Assets/user/cart.php';
 }
+
+document.getElementById('search').onclick = function () {
+    event.preventDefault()
+    window.location.href = '/1PHPD/Assets/search/search.php';
+}
