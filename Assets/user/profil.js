@@ -1,6 +1,7 @@
 // Load data from the login user
 
 const main_title = document.getElementById("data-insertion")
+const movies = document.getElementById("card_container")
 
 main_title.insertAdjacentHTML("afterend",`
     <div class='input-group mb-3'>
@@ -24,6 +25,7 @@ main_title.insertAdjacentHTML("afterend",`
     </div>
     `);
 
+moviesOwn(user.id);
 
 
 // Handle logout button
@@ -122,3 +124,32 @@ form.addEventListener("submit", function (event) {
 
 
 
+async function moviesOwn($id) {
+    const response = await fetch("/1PHPD/API/client.php?id=" + $id);
+    const data = await response.json();
+    console.log(data)
+
+    // Insert the movies in the HTML
+    data.forEach((movie) => {
+            let card = document.createElement("div")
+            card.className = "card flex-column flex-md-row p-3 gap-3 align-items-center w-100"
+            card.style = "max-width: 800px; margin: auto;"
+            card.innerHTML = `
+            <img src=${movie.video}
+                 className="img-fluid rounded"
+                 style="max-height: 200px; object-fit: contain;"
+                 alt="Minecraft Movie Poster"/>
+
+            <div className="card-body">
+                <h5 className="card-title">${movie.title}</h5>
+                <small className="text-body-secondary">${movie.release_date} |</small>
+                <small className="text-body-secondary">${movie.price} |</small>
+                <small className="text-body-secondary">${movie.genre} </small>
+                <p className="card-text mt-2">
+                    ${movie.small_description}
+                </p>
+            </div>`
+            movies.appendChild(card);
+        }
+    )
+}

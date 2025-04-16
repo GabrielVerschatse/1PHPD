@@ -24,6 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $input = json_decode(file_get_contents("php://input"), true);
     change_password($input);
 
+} else if($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET["id"])) {
+        movies_own($_GET["id"]);
+    }
 } else{
     http_response_code(400);
     echo json_encode("Invalid Method");
@@ -136,6 +140,27 @@ function change_password($input) {
     } else {
         http_response_code(400);
         echo json_encode(["status" => "error", "errorMessage" => "Invalid data provided"]);
+    }
+}
+
+
+
+
+function movies_own($id) {
+    global $pdo;
+
+    $stmt = $pdo->prepare("SELECT movies.* FROM movies 
+                           JOIN user_own ON movies.id = user_own.movie_id
+                           JOIN user on user.id = user_own.user_id
+                           WHERE user_own.user_id = ?");
+    $stmt->execute([$id]);
+    $movies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($movies) {
+        echo json_encode($movies);
+    } else {
+        http_response_code(404);
+        echo json_encode(["errorMessage" => "No movies found for this user"]);
     }
 }
 ?>

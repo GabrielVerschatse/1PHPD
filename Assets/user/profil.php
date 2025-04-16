@@ -48,6 +48,13 @@
                 </div>
             </form>
         </div>
+
+        <section class="container my-5">
+            <h2 class="mb-4 text-center">Vos Films</h2>
+            <div class="d-flex flex-column gap-4" id="card_container">
+                <!-- Les films seront insérés ici par JS -->
+            </div>
+        </section>
     </main>
 
 
