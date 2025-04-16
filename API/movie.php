@@ -4,124 +4,68 @@ require_once 'connection_bdd.php';
 
 // Handle GET requests
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    if (isset($_GET['search']) || isset($_GET['genre']) || isset($_GET['sort'])) {
-        $search_term = isset($_GET['search']) ? $_GET['search'] : '';
-        search_movies($search_term);
-    } else {
-        $headers = getallheaders();
-        $id = isset($headers['user_id']) ? $headers['user_id'] : '';
-        $token = isset($headers['token']) ? $headers['token'] : '';
-        $input = [
-            "user_id" => $id,
-            "token" => $token
-        ];
-        get_cart($input);
-    }
-} elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $input = json_decode(file_get_contents("php://input"), true);
-    if (!$input || !is_array($input)) {
+    // Look for the main research parameter (either title, actor, or director)
+    if (isset($_GET['title']) && !empty($_GET['title'])) {
+        $search_term = explode("?", $_GET['title']);
+        $type = 'title';
+        search_movies($search_term, $type);
+    } elseif (isset($_GET['actor']) && !empty($_GET['actor'])) {
+        $search_term = explode("?", $_GET['actor']);
+        $type = 'actor';
+        search_movies($search_term, $type);
+    } elseif (isset($_GET['director']) && !empty($_GET['director'])) {
+        $search_term = explode("?", $_GET['director']);
+        $type = 'director';
+        search_movies($search_term, $type);
+    } elseif (isset($_GET['genre']) && !empty($_GET['genre'])) {
+        $genre = $_GET['genre'];
+        movies_genre($genre);
+    } else{
         http_response_code(400);
-        echo json_encode("Invalid input format");
-        exit;
+        echo json_encode('Pas de paramètres de recherche');
     }
 
-    if (isset($input["action"]) && $input["action"] == "add_cart") {
-        if (!isset($input['user_id']) || !isset($input['movie_id']) || !isset($input['token'])) {
-            http_response_code(400);
-            echo json_encode("Missing required parameters");
-            exit;
-        }
-        add_cart($input);
-    } else {
-        http_response_code(400);
-        echo json_encode("Invalid action");
-    }
-} else {
-    http_response_code(400);
-    echo json_encode("Invalid Method");
 }
 
-function search_movies($search_term) {
+function search_movies($search_term, $type) {
     global $pdo;
 
-    if (!empty($search_term)) {
-        $search = "%" . trim($search_term) . "%";
-
-        if (isset($_GET['search_type'])) {
-            $search_type = $_GET['search_type'];
-
-            if ($search_type === 'title') {
-                $sql = "SELECT DISTINCT movies.*
-                        FROM movies
-                        WHERE movies.title LIKE ?
-                        LIMIT 20";
-                $params = [$search];
-            }
-            elseif ($search_type === 'actor') {
-                $sql = "SELECT DISTINCT movies.*
-                        FROM movies
-                        JOIN movies_actor ON movies.id = movies_actor.movie_id
-                        JOIN actor ON movies_actor.actor_id = actor.id
-                        WHERE actor.firstname LIKE ? OR actor.lastname LIKE ?
-                        LIMIT 20";
-                $params = [$search, $search];
-            }
-            elseif ($search_type === 'director') {
-                $sql = "SELECT DISTINCT movies.*
-                        FROM movies
-                        JOIN movies_director ON movies.id = movies_director.movie_id
-                        JOIN director ON movies_director.director_id = director.id
-                        WHERE director.firstname LIKE ? OR director.lastname LIKE ?
-                        LIMIT 20";
-                $params = [$search, $search];
-            }
-        }
-        else {
-            $sql = "SELECT DISTINCT movies.*
+    if ($type === 'title') {
+        $sql = "SELECT DISTINCT movies.*
                 FROM movies
-                WHERE movies.title LIKE ?
-                
-                UNION
-                
-                SELECT DISTINCT movies.*
+                WHERE movies.title LIKE :main_param";
+    } elseif ($type === 'actor') {
+        $sql = "SELECT DISTINCT movies.*
                 FROM movies
                 JOIN movies_actor ON movies.id = movies_actor.movie_id
                 JOIN actor ON movies_actor.actor_id = actor.id
-                WHERE actor.firstname LIKE ? OR actor.lastname LIKE ?
-                
-                UNION
-                
-                SELECT DISTINCT movies.*
+                WHERE actor.firstname LIKE :main_param OR actor.lastname LIKE :main_param";
+    } else {
+        $sql = "SELECT DISTINCT movies.*
                 FROM movies
                 JOIN movies_director ON movies.id = movies_director.movie_id
                 JOIN director ON movies_director.director_id = director.id
-                WHERE director.firstname LIKE ? OR director.lastname LIKE ?
-                
-                LIMIT 20";
-
-            $params = [$search, $search, $search, $search, $search];
-        }
+                WHERE director.firstname LIKE :main_param OR director.lastname LIKE :main_param";
     }
-    else {
-        $sql = "SELECT DISTINCT movies.* FROM movies WHERE 1=1";
-        $params = [];
 
-        if (isset($_GET['genre']) && !empty($_GET['genre'])) {
-            $sql .= " AND movies.genre LIKE ?";
-            $params[] = "%" . $_GET['genre'] . "%";
-        }
 
-        if (isset($_GET['sort']) && $_GET['sort'] === 'old') {
-            $sql .= " ORDER BY movies.release_date ASC";
-        } else {
-            $sql .= " ORDER BY movies.release_date DESC";
-        }
+    $sql .= " AND movies.genre LIKE :genre";
 
-        $sql .= " LIMIT 20";
+    if ($search_term[2] === 'old') {
+        $sql .= " ORDER BY movies.release_date ASC";
+    } else {
+        $sql .= " ORDER BY movies.release_date DESC";
     }
+
+    $sql .= " LIMIT 20";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
+    $stmt->execute(
+        [
+            ':main_param' => '%' . $search_term[0] . '%',           // Add % wildcards for LIKE
+            ':genre' => '%' . $search_term[1] . '%'
+        ]
+    );
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     if (count($results) > 0) {
@@ -132,4 +76,30 @@ function search_movies($search_term) {
         echo json_encode('Aucun film trouvé');
     }
 }
+
+
+
+function movies_genre($genre){
+    // Return all movies of a specific genre
+    global $pdo;
+
+    $sql = "SELECT DISTINCT movies.*
+            FROM movies
+            WHERE movies.genre LIKE :genre";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(
+        [
+            ':genre' => '%' . $genre . '%'
+        ]
+    );
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (count($results) > 0) {
+        header('Content-Type: application/json');
+        echo json_encode($results);
+    } else {
+        http_response_code(404);
+        echo json_encode('Aucun film trouvé');
+    }
+}
+
 ?>

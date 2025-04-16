@@ -7,7 +7,7 @@ const category = parameters.get('category');
 // Function to fetch and display products based on the category
 async function Display_movies(category) {
     try {
-        const response = await fetch(`http://localhost/1PHPD/API/movie.php?search=${category}`);
+        const response = await fetch(`http://localhost/1PHPD/API/movie.php?genre=${category}`);
         const movies = await response.json();
 
         // Retrieve the list of objects and process
@@ -37,5 +37,5 @@ async function Display_movies(category) {
 }
 
 
-
+console.log(category);
 Display_movies(category);

@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
+            console.log(queryParams.toString())
             const response = await fetch(`../../API/movie.php?${queryParams.toString()}`);
             if (!response.ok) {
                 throw new Error(`Erreur serveur : ${response.statusText}`);
