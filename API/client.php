@@ -15,7 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     } elseif ($input["action"] == "change_password") {
         change_password($input);
-
+    } elseif ($input["action"] == "add_movie") {
+        echo $input["action"];
+        var_dump($input);
+        add_movie_to_user($input);
     } else {
         http_response_code(400);
         echo json_encode("Invalid action");
@@ -163,4 +166,59 @@ function movies_own($id) {
         echo json_encode(["errorMessage" => "No movies found for this user"]);
     }
 }
+
+function add_movie_to_user($input) {
+    global $pdo;
+
+    if (!isset($input["user_id"]) || !isset($input["movie_id"]) || !isset($input["token"])) {
+        http_response_code(400);
+        echo json_encode(["errorMessage" => "Paramètres manquants: user_id, movie_id et token sont requis"]);
+        return;
+    }
+
+    $userId = $input["user_id"];
+    $movieId = $input["movie_id"];
+    $token = $input["token"];
+
+    $stmt = $pdo->prepare("SELECT id FROM user WHERE id = ? AND token = ?");
+    $stmt->execute([$userId, $token]);
+    $user = $stmt->fetch();
+
+    if (!$user) {
+        http_response_code(401);
+        echo json_encode(["errorMessage" => "Authentification échouée"]);
+        return;
+    }
+
+    $stmt = $pdo->prepare("SELECT id FROM movies WHERE id = ?");
+    $stmt->execute([$movieId]);
+    $movie = $stmt->fetch();
+
+    if (!$movie) {
+        http_response_code(404);
+        echo json_encode(["errorMessage" => "Film non trouvé"]);
+        return;
+    }
+
+    $stmt = $pdo->prepare("SELECT * FROM user_own WHERE user_id = ? AND movie_id = ?");
+    $stmt->execute([$userId, $movieId]);
+    $existingRecord = $stmt->fetch();
+
+    if ($existingRecord) {
+        http_response_code(409); // Conflit
+        echo json_encode(["errorMessage" => "L'utilisateur possède déjà ce film"]);
+        return;
+    }
+
+    $stmt = $pdo->prepare("INSERT INTO user_own (user_id, movie_id) VALUES (?, ?)");
+    $result = $stmt->execute([$userId, $movieId]);
+
+    if ($result) {
+        echo json_encode(["status" => "success", "message" => "Film ajouté avec succès"]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["errorMessage" => "Erreur lors de l'ajout du film"]);
+    }
+}
+
 ?>

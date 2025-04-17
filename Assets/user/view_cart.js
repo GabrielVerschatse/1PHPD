@@ -155,6 +155,98 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById('checkout-btn').addEventListener('click', function() {
-        alert('Fonctionnalité de paiement à implémenter');
+        const cartItems = document.querySelectorAll('.row[data-movie-id]');
+        this.disabled = true;
+        const checkoutButton = this;
+
+        if (cartItems.length === 0) {
+            showToast("Erreur", "Votre panier est vide", "danger");
+            this.disabled = false;
+            return;
+        }
+
+        const movieIds = Array.from(cartItems).map(item =>
+            item.getAttribute('data-movie-id')
+        );
+
+        function addMovieToLibrary(index) {
+            if (index >= movieIds.length) {
+                clearCart();
+                return;
+            }
+
+            const movieId = movieIds[index];
+
+            fetch(`../../API/client.php`, {
+                method: "POST",
+                body: JSON.stringify({
+                    "user_id": userId,
+                    "movie_id": movieId,
+                    "token": token,
+                    "action": "add_movie"
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    addMovieToLibrary(index + 1);
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'ajout du film:', error);
+                    addMovieToLibrary(index + 1);
+                });
+        }
+
+        function clearCart() {
+            const remainingMovieIds = Array.from(document.querySelectorAll('.row[data-movie-id]'))
+                .map(item => item.getAttribute('data-movie-id'));
+
+            if (remainingMovieIds.length === 0) {
+                finishCheckout();
+                return;
+            }
+
+            function removeNextMovie(index) {
+                if (index >= remainingMovieIds.length) {
+                    finishCheckout();
+                    return;
+                }
+
+                const movieId = remainingMovieIds[index];
+
+                fetch(`../../API/cart.php?user_id=${userId}&token=${token}&movie_id=${movieId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'user_id': userId,
+                        'token': token
+                    }
+                })
+                    .then(() => {
+                        removeNextMovie(index + 1);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la suppression du film:', error);
+                        removeNextMovie(index + 1);
+                    });
+            }
+
+            removeNextMovie(0);
+        }
+
+        function finishCheckout() {
+            showToast("Succès", "Film(s) ajoutés à votre bibliothèque !", "success");
+
+            fetchCart();
+
+            setTimeout(() => {
+                window.location.href = '../user/profil.php';
+            }, 2000);
+
+            checkoutButton.disabled = false;
+        }
+
+        addMovieToLibrary(0);
     });
 });
