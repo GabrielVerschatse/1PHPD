@@ -9,7 +9,7 @@ async function loadMovies() {
         movie.innerHTML = `
                     <div class="col">
                         <div class="card">
-                            <img src=${film.video} class="card-img-top img-fluid pt-2" style="max-height: 350px; object-fit: contain;" alt="...">
+                            <img src=${film.video} class="card-img-top img-fluid pt-2" style="max-height: 350px; object-fit: contain;" alt="${film.title}">
                             <div class="card-body">
                                 <h5 class="card-title">${film.title}</h5>
                                 <small class="text-body-secondary">${film.release_date} |</small>
