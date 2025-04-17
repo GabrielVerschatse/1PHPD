@@ -63,7 +63,16 @@
         require_once '../../API/connection_bdd.php';
 
         try {
-            $stmt = $pdo->prepare("SELECT * FROM movies WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT movies.*, 
+    GROUP_CONCAT(DISTINCT CONCAT(actor.firstname, ' ', actor.lastname) SEPARATOR ', ') AS actor_names,
+    GROUP_CONCAT(DISTINCT CONCAT(director.firstname, ' ', director.lastname) SEPARATOR ', ') AS director_names
+    FROM movies 
+    LEFT JOIN movies_actor ON movies.id = movies_actor.movie_id 
+    LEFT JOIN actor ON movies_actor.actor_id = actor.id 
+    LEFT JOIN movies_director ON movies.id = movies_director.movie_id
+    LEFT JOIN director ON movies_director.director_id = director.id
+    WHERE movies.id = ?
+    GROUP BY movies.id");
             $stmt->execute([$movie_id]);
             $movie = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -87,6 +96,25 @@
                         <span class="badge bg-danger">Prix: <?= number_format($movie['price'], 2) ?> €</span>
                         <span class="badge bg-secondary">Genre: <?= htmlspecialchars($movie['genre']) ?></span>
                         <span class="badge bg-info text-dark">Date de sortie: <?= htmlspecialchars($movie['release_date']) ?></span>
+                        <span class="badge bg-info text-dark">Réalisateur:
+                        <?php
+                        if (!empty($movie['director_names'])) {
+                            $directors = explode(', ', $movie['director_names']);
+                            $directorLinks = [];
+                            foreach ($directors as $director) {
+                                $nameParts = explode(' ', $director);
+                                $lastName = end($nameParts);
+                                $directorLinks[] = '<a href="director_movies.php?director=' . urlencode($lastName) . '" class="text-white">' . htmlspecialchars($director) . '</a>';
+                            }
+                            echo implode(', ', $directorLinks);
+                        } else {
+                            echo 'Non disponible';
+                        }
+                        ?>
+                        </span>
+                        <span class="badge bg-info text-dark">Acteurs:
+                            <?= !empty($movie['actor_names']) ? htmlspecialchars($movie['actor_names']) : 'Non disponible'; ?>
+                        </span>
                     </div>
 
                     <?php if (!empty($movie['video'])): ?>
