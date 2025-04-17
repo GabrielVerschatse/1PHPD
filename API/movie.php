@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $search_term = explode("?", $_GET['director']);
         $type = 'director';
         search_movies($search_term, $type);
-    } elseif (isset($_GET['genre']) && !empty($_GET['genre'])) {
+    } elseif (isset($_GET['genre'])) {
         $genre = $_GET['genre'];
         movies_genre($genre);
     } else{
